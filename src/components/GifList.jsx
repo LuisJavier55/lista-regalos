@@ -1,19 +1,32 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { TotalGifts } from "./TotalGifts";
 
 
 export const GifList = () => {
     const [regalos,  setRegalo] = useState([])
+    const [valueInput, setValueInput] = useState('')
 
-    
+
     const agregarGif = () =>{
-        const nuevoRegal = prompt('Quieres añadir un regalo?');
+        // const nuevoRegal = prompt('Quieres añadir un regalo?');
+       if(valueInput.trim() !== '')
+       {
+            setRegalo([
+                ...regalos,
+                valueInput
+            ])
 
-        setRegalo([
-            ...regalos,
-            nuevoRegal
-        ])
+            setValueInput('');
+
+       }
     }
+
+    const OnManejarCambio = ({target}) =>{
+        setValueInput(target.value)
+    }
+
+
+
   return (
     <>
     <h2>Regalos</h2>
@@ -24,6 +37,15 @@ export const GifList = () => {
             ))
         }
     </ul>
+    {/* Input  */}
+
+    <input
+        type="text"
+        value={valueInput}
+        onChange={OnManejarCambio}
+        placeholder="Escribe regalo..."
+      />
+
     <button onClick={agregarGif} >Añadir regalo</button>
 
     <TotalGifts FuntotalReg={regalos.length} />
